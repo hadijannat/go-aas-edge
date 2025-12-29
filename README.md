@@ -1,6 +1,6 @@
 # 🏭 Go-AAS-Edge
 
-**The Cognitive Industrial Twin** — A lightweight Asset Administration Shell (AAS) server for Edge devices with AI-powered diagnostics.
+Lightweight Asset Administration Shell (AAS) server for edge devices with optional AI diagnostics.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Go-1.23+-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go 1.23+">
@@ -12,18 +12,18 @@
 
 | Java AAS Server | Go-AAS-Edge |
 |-----------------|-------------|
-| **300MB+** Docker Image | **<20MB** Docker Image |
+| ~300MB Docker Image | <20MB Docker Image |
 | JVM Required | Single Binary |
 | High Memory Footprint | <50MB RAM |
 | Complex Deployment | `./aas-edge` |
 
 ## ✨ Features
 
-- **📦 Tiny Footprint**: Distroless container, no OS shell, minimal attack surface
-- **⚡ High Performance**: Go's concurrency model handles thousands of requests
-- **🔧 AAS V3.0 Compliant**: Uses official `aas-core-works` SDK
-- **🤖 AI Diagnostics**: Chat with your asset using natural language
-- **🔄 Real-time Simulation**: Physics engine simulates live sensor data
+- **📦 Small image**: Distroless container without extra tooling
+- **⚡ Concurrency**: Goroutines handle requests and simulation in parallel
+- **🔧 AAS V3.0 compliant**: Uses the `aas-core-works` SDK
+- **🤖 AI diagnostics**: Optional chat endpoint backed by OpenAI when configured
+- **🔄 Real-time simulation**: Physics loop updates telemetry values
 
 ## 🚀 Quick Start
 
@@ -105,7 +105,7 @@ go-aas-edge/
 ├── internal/
 │   ├── model/twin.go       # Thread-safe AAS wrapper
 │   ├── physics/engine.go   # Sensor simulation
-│   └── ai/agent.go         # RAG-based diagnostics
+│   └── ai/agent.go         # AI diagnostics client
 ├── Dockerfile              # Multi-stage distroless build
 ├── .env.example            # Configuration template
 └── go.mod
