@@ -29,8 +29,25 @@ func main() {
 		log.Println("🤖 AI Agent: Running in mock mode (set OPENAI_API_KEY for live AI)")
 	}
 
-	// 3. Setup Web Server
-	gin.SetMode(gin.ReleaseMode)
+	r := setupRouter(twin, aiAgent)
+
+	log.Println("🚀 Go-AAS-Edge running on :8080")
+	log.Println("   - GET  /health    → Health check")
+	log.Println("   - GET  /aas       → AAS V3 JSON")
+	log.Println("   - GET  /telemetry → Live sensor data")
+	log.Println("   - POST /ask       → Chat with the asset")
+
+	if err := r.Run(":8080"); err != nil {
+		log.Fatalf("Server failed: %v", err)
+	}
+}
+
+// setupRouter wires all HTTP endpoints. It is separated from main to enable
+// integration testing without starting the long-running server loop.
+func setupRouter(twin *model.TwinManager, aiAgent *ai.Agent) *gin.Engine {
+	if gin.Mode() == gin.DebugMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.Default()
 
 	// Health check endpoint
@@ -81,13 +98,5 @@ func main() {
 		})
 	})
 
-	log.Println("🚀 Go-AAS-Edge running on :8080")
-	log.Println("   - GET  /health    → Health check")
-	log.Println("   - GET  /aas       → AAS V3 JSON")
-	log.Println("   - GET  /telemetry → Live sensor data")
-	log.Println("   - POST /ask       → Chat with the asset")
-
-	if err := r.Run(":8080"); err != nil {
-		log.Fatalf("Server failed: %v", err)
-	}
+	return r
 }
